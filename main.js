@@ -3,12 +3,21 @@ const gameBoard = document.querySelector('.game-board');
 
 function buildGameBoard() {
     let gameBox;
+    let gameBoxTop;
+    let gameBoxBottom;
     let gameBoxIds = []
     for (let i = 0; i < 56; i++) {
         gameBox = document.createElement('div');
         gameBoard.appendChild(gameBox);
         gameBox.classList.add('game-box');
         gameBox.setAttribute('id', i);
+        gameBoxTop = document.createElement('div');
+        gameBox.appendChild(gameBoxTop);
+        gameBoxTop.classList.add('game-box-top');
+        gameBoxBottom = document.createElement('div');
+        gameBox.appendChild(gameBoxBottom);
+        gameBoxBottom.classList.add('game-box-bottom');
+        // adds color to spaces
         if (i === 14|| i===25||i===36||i===55) {
             gameBox.classList.add('special');
         }
@@ -23,6 +32,23 @@ function buildGameBoard() {
         }
         if (i===4||i===8||i===12||i=== 17||i===21||i===26||i===30||i===34||i===39||i===43||i===47||i===51||i===54) {
             gameBox.classList.add('purple');
+        }
+        //adds characters to special spaces
+        if (i===55) {
+            gameBox.innerHTML = '<i class="fa-solid fa-flag-checkered"></i>';
+        }
+        if (i===36) {
+            gameBox.innerHTML = '<i class="fa-solid fa-music"></i>';
+        }
+        if (i===25) {
+            gameBox.innerHTML = '<i class="fa-solid fa-city"></i>';
+        }
+        if (i===14) {
+            gameBox.innerHTML = '<i class="fa-solid fa-gift"></i>';
+        }
+        if (i===0) {
+            gameBoxTop.innerHTML = '<i class="fa-solid fa-car-side player1"></i>';
+            gameBoxBottom.innerHTML = '<i class="fa-solid fa-car-side player2"></i>';
         }
                 //blank tiles
         // if(i=== 1 || i===24-26 || i===4) {

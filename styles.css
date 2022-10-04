@@ -73,6 +73,14 @@ button:hover{
     height: 80px;
     background-color: grey;
     border: 2px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+i {
+    display: flex;
 }
 
 
@@ -330,4 +338,33 @@ button:hover{
     background-color: pink;
 }
 
+/* players and special spaces */
+
+.fa-flag-checkered {
+    font-size: 3rem;
+    color: blue;
+    background-color: pink;
+}
+
+.fa-music, .fa-city, .fa-gift {
+    font-size: 3rem;
+    color: purple;
+    background-color: pink;
+}
+
+.fa-car-side {
+    font-size: 1.5rem;
+    background-color: grey;
+    padding: 2px;
+}
+
+.player1 {
+    color: #b22222;
+    display: flex;
+}
+
+.player2 {
+    color: #fbec5d;
+    display: flex;
+}
 
