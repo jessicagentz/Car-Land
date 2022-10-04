@@ -368,3 +368,13 @@ i {
     display: flex;
 }
 
+.direction-bar {
+    display: flex;
+}
+#player-display {
+    font-size: 3rem;
+    line-height: 3rem;
+    width: 100px;
+    background-color: darkgrey;
+}
+
