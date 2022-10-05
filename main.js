@@ -87,7 +87,6 @@ function startGame() {
         gameCardsInPlay.push('gift');
         gameCardsInPlay.push('city');
         gameCardsInPlay.push('music');
-        gameCardsInPlay.sort(() => 0.5 - Math.random());
     }
     buildCardDeck()
     drawButton.addEventListener('click', drawCard);
@@ -112,12 +111,16 @@ function drawCard () {
     if(gameCardsInPlay === null) {
         startGame.buildCardDeck();
     }
-    cardChosen.push(gameCardsInPlay[0]);
+    //adds random number to select random card from gameCardsInPlay and push to cardChosen
+    let randomCardId = Math.floor(Math.random() * gameCardsInPlay.length);
+    cardChosen.push(gameCardsInPlay[randomCardId]);
+    //changes display from button to card selected and updates with next directions
     drawButton.style.display = 'none';
     card.style.display = 'flex';
     directions.innerHTML = 'Click game space';
     // let cardChosen = ['doubleGreen'];
     console.log(cardChosen[0]);
+    //adds functionality to display selected card
     if (cardChosen[0] === 'singleBlue') {
         firstCardSlot.classList.add('blue');
     }
@@ -164,12 +167,13 @@ function drawCard () {
     }
 }
 
+//handles click event when player clicks on correct game space or alerts player to try again if correct space is not selected
 function makeMove () {
     //accepts click in correct game space
     //alert if clicks anywhere outside of correct game space
     //resets cardChosen array to empty and puts used card in used array
     gameCardsUsed.push(cardChosen);
-    //chage to player 2 car if player 1 or player1 if player 2
+    //checks for current player and changes player
     //update directions
     //display draw button and hide card
 }
