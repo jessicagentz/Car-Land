@@ -22,9 +22,21 @@ h1 span{
     font-size: 2rem;
 }
 
+.direction-bar {
+    display: flex;
+}
+
+#player-display {
+    font-size: 3rem;
+    line-height: 3rem;
+    width: 100px;
+    background-color: darkgrey;
+}
+
 .cards-bar{
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 span{
@@ -45,18 +57,45 @@ button{
     border: 5px solid black;
 }
 
+.card{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+    width: 200px;
+    font-size: 2rem;
+    font-weight: bold;
+    background-color: white;
+    color: purple;
+    margin: 20px;
+    border-radius: 10px;
+    border: 5px solid black;
+}
+
+.card-box {
+    height: 60px; 
+    width: 60px;
+    font-size: 2rem;
+    border-radius: 10px;
+    display: flex;
+    margin: 10px;
+}
+
 button:hover{
     background-color: lightpink;
 }
 
-/* .card{
-    height: 80px;
-    width: 200px;
-    background-color: white;
-    margin: 40px;
-    border-radius: 10px;
-    border: 5px black solid;
-} */
+.reset{
+    height: 50px;
+    width: 80px;
+    font-size: 1rem;
+    border: 1px solid black;
+    background-color: grey;
+}
+
+.reset:hover{
+    background-color: lightgrey;
+}
 
 .game-board {
     width: 960px;
@@ -82,7 +121,6 @@ button:hover{
 i {
     display: flex;
 }
-
 
 /* construct grid for game path */
 [id="0"] {
@@ -313,10 +351,7 @@ i {
     grid-area: 1/12;
 }
 
-
-/* .blank {
-    background-color: lightgrey;
-} */
+/* provides background color for gameboard and cards */
 
 .red {
     background-color: green;
@@ -356,25 +391,18 @@ i {
     font-size: 1.5rem;
     background-color: grey;
     padding: 2px;
+    z-index: 1;
+    display: flex;
 }
 
 .player1 {
     color: #b22222;
-    display: flex;
 }
 
 .player2 {
     color: #fbec5d;
-    display: flex;
 }
 
-.direction-bar {
-    display: flex;
-}
-#player-display {
-    font-size: 3rem;
-    line-height: 3rem;
-    width: 100px;
-    background-color: darkgrey;
-}
+
+
 
