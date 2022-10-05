@@ -4,11 +4,18 @@ const gameBoard = document.querySelector('.game-board');
 let gameBox;
 let gameBoxTop;
 let gameBoxBottom;
-//gameCardsInPlay array will hold full deck of cards. As cards are flipped over and used they will get pushed to gameCardsUsed array
+//gameCardsInPlay array will hold card options to display. As cards are flipped over they will go to cardChosen and used they will get pushed to gameCardsUsed array
 let gameCardsInPlay = [];
 let gameCardsUsed = [];
+let cardChosen = [];
 //card represents div in html that will hold card boxes(boxes with card deck options)
 const card = document.querySelector('.card');
+//divs that will hold single or double color cards depending on card array selection
+const firstCardSlot = document.querySelector('.first-slot');
+const secondCardSlot = document.querySelector('.second-slot');
+//selects draw button
+const drawButton = document.querySelector('.draw');
+const directions = document.querySelector('.directions');
 
 //builds gameboard initially and will be called to reset game upon clicking reset button
 function startGame() {
@@ -31,7 +38,7 @@ function startGame() {
                 gameBox.classList.add('special');
             }
             if (i===1||i===5||i===9||i=== 13||i===18||i===22||i===27||i===31||i===35||i===40||i===44||i===48||i===52) {
-                gameBox.classList.add('red');
+                gameBox.classList.add('green');
             }
             if (i===2||i===6||i===10||i=== 15||i===19||i===23||i===28||i===32||i===37||i===41||i===45||i===49||i===53) {
                 gameBox.classList.add('blue');
@@ -59,23 +66,11 @@ function startGame() {
                 gameBoxTop.innerHTML = '<i class="fa-solid fa-car-side player1"></i>';
                 gameBoxBottom.innerHTML = '<i class="fa-solid fa-car-side player2"></i>';
             }
-                    //blank tiles
-            // if(i=== 1 || i===24-26 || i===4) {
-            //     gameBox.classList.add('blank');
-            // }
-            //red tiles
-    
-            // gameBoxIds.push(gameBox.getAttribute('data-id'));
         }
-        
-        // let gameBoxes = document.querySelectorAll('[game-box]');
-        // console.log(gameBoxes);
-        // let gameBoxes = gameBox.getAttribute('data-id');
-        // console.log(gameBoxes);
     }
     buildGameBoard();
     
-    //builds representation of cards and pushes them to gameCardsInPlay array
+    //builds representation of cards and pushes them to gameCardsInPlay array and shuffles array
     function buildCardDeck () {
         for(let i=0; i<6; i++) {
             gameCardsInPlay.push('singleGreen');
@@ -92,8 +87,10 @@ function startGame() {
         gameCardsInPlay.push('gift');
         gameCardsInPlay.push('city');
         gameCardsInPlay.push('music');
+        gameCardsInPlay.sort(() => 0.5 - Math.random());
     }
     buildCardDeck()
+    drawButton.addEventListener('click', drawCard);
 }
 startGame();
 
@@ -101,12 +98,81 @@ startGame();
 function reset () {
     gameCardsInPlay = [];
     gameCardsUsed = [];
+    drawButton.style.display = 'inline block';
+    card.style.display = 'none';
     //remove any classLists on board*********************************
     startGame()
 }
 
 console.log(gameCardsInPlay);
 
+//handles click event lister for draw button to display card and update directions
+function drawCard () {
+    //rebuilds deck if no cards remain
+    if(gameCardsInPlay === null) {
+        startGame.buildCardDeck();
+    }
+    cardChosen.push(gameCardsInPlay[0]);
+    drawButton.style.display = 'none';
+    card.style.display = 'flex';
+    directions.innerHTML = 'Click game space';
+    // let cardChosen = ['doubleGreen'];
+    console.log(cardChosen[0]);
+    if (cardChosen[0] === 'singleBlue') {
+        firstCardSlot.classList.add('blue');
+    }
+    if (cardChosen[0] === 'singleGreen') {
+        firstCardSlot.classList.add('green');
+    }
+    if (cardChosen[0] === 'singleOrange') {
+        firstCardSlot.classList.add('orange');
+    }
+    if (cardChosen[0] === 'singlePurple') {
+        firstCardSlot.classList.add('purple');
+    }
+    if (cardChosen[0] === 'doubleBlue') {
+        firstCardSlot.classList.add('blue');
+        secondCardSlot.classList.add('card-box');
+        secondCardSlot.classList.add('blue');
+    }
+    if (cardChosen[0] === 'doubleGreen') {
+        firstCardSlot.classList.add('green');
+        secondCardSlot.classList.add('card-box');
+        secondCardSlot.classList.add('green');
+    }
+    if (cardChosen[0] === 'doubleOrange') {
+        firstCardSlot.classList.add('orange');
+        secondCardSlot.classList.add('card-box');
+        secondCardSlot.classList.add('orange');
+    }
+    if (cardChosen[0] === 'doublePurple') {
+        firstCardSlot.classList.add('purple');
+        secondCardSlot.classList.add('card-box');
+        secondCardSlot.classList.add('purple');
+    }
+    if (cardChosen[0] === 'gift') {
+        firstCardSlot.classList.add('special');
+        firstCardSlot.innerHTML = '<i class="fa-solid fa-gift"></i>';
+    }
+    if (cardChosen[0] === 'city') {
+        firstCardSlot.classList.add('special');
+        firstCardSlot.innerHTML = '<i class="fa-solid fa-city"></i>';
+    }
+    if (cardChosen[0] === 'music') {
+        firstCardSlot.classList.add('special');
+        firstCardSlot.innerHTML = '<i class="fa-solid fa-music"></i>';
+    }
+}
+
+function makeMove () {
+    //accepts click in correct game space
+    //alert if clicks anywhere outside of correct game space
+    //resets cardChosen array to empty and puts used card in used array
+    gameCardsUsed.push(cardChosen);
+    //chage to player 2 car if player 1 or player1 if player 2
+    //update directions
+    //display draw button and hide card
+}
 // let singleGreen;
 //     let doubleGreen;
 //     let singleBlue;
@@ -118,3 +184,9 @@ console.log(gameCardsInPlay);
 //     let gift;
 //     let city;
 //     let music;
+
+// gameBoxIds.push(gameBox.getAttribute('data-id'));       
+// let gameBoxes = document.querySelectorAll('[game-box]');
+// console.log(gameBoxes);
+// let gameBoxes = gameBox.getAttribute('data-id');
+// console.log(gameBoxes);

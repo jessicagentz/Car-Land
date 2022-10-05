@@ -58,12 +58,11 @@ button{
 }
 
 .card{
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     height: 80px;
     width: 200px;
-    font-size: 2rem;
     font-weight: bold;
     background-color: white;
     color: purple;
@@ -75,9 +74,8 @@ button{
 .card-box {
     height: 60px; 
     width: 60px;
-    font-size: 2rem;
     border-radius: 10px;
-    display: flex;
+    line-height: 70px;
     margin: 10px;
 }
 
@@ -353,7 +351,7 @@ i {
 
 /* provides background color for gameboard and cards */
 
-.red {
+.green {
     background-color: green;
 }
 
@@ -382,7 +380,7 @@ i {
 }
 
 .fa-music, .fa-city, .fa-gift {
-    font-size: 3rem;
+    font-size: 2rem;
     color: purple;
     background-color: pink;
 }

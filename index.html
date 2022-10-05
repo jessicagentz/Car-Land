@@ -14,13 +14,13 @@
     <h1>Car Land <span>- Race to the Finish Line!</span></h1>
     <!-- draw card and flipped up card will display here as well as player turn and directions -->
     <div class="cards-bar">
-        <div class="direction-bar"><i id="player-display" class="fa-solid fa-car-side player1"></i></span class="directions"><span>Draw a card</span></div>
+        <div class="direction-bar"><i id="player-display" class="fa-solid fa-car-side player1"></i></span><span class="directions">Draw a card</span></div>
         <!-- Button and card will toggle. Card will remain with display of none until button clicked. When card displays button will change to display of none. -->
-        <button>Draw</button>
+        <button class="draw">Draw</button>
         <!-- Card will have one or two divs filled with image depending whether moving one space or two -->
         <div class="card">
-            <div class="card-box"></div>
-            <div class="second-card"></div>
+            <div class="card-box first-slot"></div>
+            <div class="second-slot"></div>
         </div>
         <button class="reset">Reset</button>
     </div>
