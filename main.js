@@ -1,9 +1,4 @@
-//selects gameBoard from html and function buildGameBoard builds game board and inserts it in that div
-const gameBoard = document.querySelector('.game-board');
-//gameBox represents individual square on game board. gameBox is devided into top and bottom to display player 1 and 2 respectively
-let gameBox;
-let gameBoxTop;
-let gameBoxBottom;
+
 //gameCardsInPlay array will hold card options to display. As cards are flipped over they will go to cardChosen and used they will get pushed to gameCardsUsed array
 let gameCardsInPlay = [];
 let gameCardsUsed = [];
@@ -19,13 +14,18 @@ const directions = document.querySelector('.directions');
 //defines current player
 let currentPlayer = 1;
 let newSpaceId;
-
+let playerDisplay = document.getElementById('player-display');
 
 
 
 //builds gameboard initially and will be called to reset game upon clicking reset button
 function startGame() {
     function buildGameBoard() {
+        const gameBoard = document.querySelector('.game-board');
+        //gameBox represents individual square on game board. gameBox is devided into top and bottom to display player 1 and 2 respectively
+        let gameBox;
+        let gameBoxTop;
+        let gameBoxBottom;
         for (let i = 0; i < 56; i++) {
             //adds gameBoxes to gameBoard and gives them each unique id
             gameBox = document.createElement('div');
@@ -98,15 +98,15 @@ function startGame() {
 }
 startGame();
 
+//ids created when startGame is called and game board is created. ids will be used to target and move spaces on game board
 let ids = document.querySelectorAll('[data-id]');
-let idCurrentSpacePlayer1;
-let idCurrentSpacePlayer2;
+//Specific colored arrays are generated below in function idSpaces by color. They will store id values by color and will be used to find newSpaceId based on color of card drawn.
 let greenIds = [];
 let blueIds = [];
 let orangeIds = [];
 let purpleIds = [];
-let specialIds = [];
-//creates array of ids for different colored spaces that will be used to target and move spaces
+//let specialIds = [];
+//helper function that creates array of ids for different colored spaces that will be used to target and move spaces
 function idSpacesByColor() {
     for (let i = 0; i < ids.length; i++) {
         if (ids[i].className === 'game-box green') {
@@ -121,9 +121,9 @@ function idSpacesByColor() {
         if (ids[i].className === 'game-box purple') {
             purpleIds.push(ids[i].dataset.id);
         }
-        if (ids[i].className === 'game-box special') {
-            specialIds.push(ids[i].dataset.id);
-        }
+        //if (ids[i].className === 'game-box special') {
+        //     specialIds.push(ids[i].dataset.id);
+        // }
     }
 }
 idSpacesByColor();
@@ -142,14 +142,20 @@ function reset() {
 function currentSpace(player) {
     if (player === 1) {
         for (let i = 0; i < ids.length; i++) {
-            if (ids[i].firstElementChild.innerHTML === ('<i class="fa-solid fa-car-side player1"></i>')) {
-                return ids[i].dataset.id;
-            }
+            // if (ids[i].firstElementChild.innerHTML === ('<i class="fa-solid fa-car-side player1"></i>')) {
+            //     return ids[i].dataset.id;
+            // }
+            if (ids[i].firstElementChild.innerHTML.includes('player1')) {
+                    return ids[i].dataset.id;
+                }
         }
     }
     if (player === 2) {
         for (let i = 0; i < ids.length; i++) {
-            if (ids[i].lastChild.innerHTML === ('<i class=\"fa-solid fa-car-side player2\"></i>')) {
+            // if (ids[i].lastChild.innerHTML === ('<i class=\"fa-solid fa-car-side player2\"></i>')) {
+            //     return ids[i].dataset.id;
+            // }
+            if (ids[i].lastChild.innerHTML.includes('player2')) {
                 return ids[i].dataset.id;
             }
         }
@@ -162,15 +168,19 @@ function drawCard() {
     if (gameCardsInPlay === null) {
         startGame.buildCardDeck();
     }
-    //adds random number to select random card from gameCardsInPlay and push to cardChosen
-    let randomCardId = Math.floor(Math.random() * gameCardsInPlay.length);
-    cardChosen.push(gameCardsInPlay[randomCardId]);
+    //generates a random number to plug into gameCardsInPlay array to select random card and push to cardChosen
+    selectRandomNumber = () => {
+        return Math.floor(Math.random() * gameCardsInPlay.length);
+    }
+    cardChosen.push(gameCardsInPlay[selectRandomNumber()]);
     //changes display from button to card selected and updates with next directions
     drawButton.style.display = 'none';
     card.style.display = 'flex';
     directions.innerHTML = 'Click game space';
-    // let cardChosen = ['doubleGreen'];
-    console.log(cardChosen[0]);
+    let firstPurple;
+    let firstBlue;
+    let firstGreen;
+    let firstOrange;
     //adds functionality to display selected card depending on cardChosen
     //finds correct game space for selected card depending on currentSpace
     //last line adds event listener for a click to newSpaceId
@@ -233,32 +243,44 @@ function drawCard() {
         firstCardSlot.innerHTML = '<i class="fa-solid fa-music"></i>';
         newSpaceId = 36;
     }
+    console.log(cardChosen[0]);
+    console.log(currentSpace(currentPlayer));
+    console.log(newSpaceId);
+    console.log(ids[newSpaceId]);
     ids[newSpaceId].addEventListener('click', makeMove);
 }
 
 //handles click event when player clicks on correct game space or alerts player to try again if correct space is not selected
 function makeMove() {
-    alert('function works')
-    //accepts click in correct game space
-    //alert if clicks anywhere outside of correct game space
-    //define currentSpace for player
     //resets cardChosen array to empty and puts used card in used array
     gameCardsUsed.push(cardChosen);
-    //checks for current player and changes player
-    //update directions
-    //display draw button and hide card
+    cardChosen = [];
+    //moves red car if player1 and yellow car if player2, changes player, and changes player display
+    if (currentPlayer === 1) {
+        ids[currentSpace(1)].firstElementChild.innerHTML = "";
+        ids[newSpaceId].firstElementChild.innerHTML = '<i class="fa-solid fa-car-side player1"></i>';
+        currentPlayer = 2;
+        playerDisplay.classList.remove('player1');
+        playerDisplay.classList.add('player2');
+    }
+    else if (currentPlayer === 2) {
+        ids[currentSpace(2)].lastChild.innerHTML = "";
+        ids[newSpaceId].lastChild.innerHTML = '<i class="fa-solid fa-car-side player2"></i>';
+        currentPlayer = 1;
+        playerDisplay.classList.remove('player2');
+        playerDisplay.classList.add('player1');
+    }
+    //reset card slots to baseline
+    firstCardSlot.classList = 'card-box first-slot';
+    secondCardSlot.classList = 'second-slot';
+    firstCardSlot.innerHTML = '';
+    //displays draw button, hides card, and updates player directions
+    drawButton.style.display = 'inline-block';
+    card.style.display = 'none';
+    directions.innerHTML = 'Draw a card';
+    ids[newSpaceId].removeEventListener('click', makeMove);
 }
-// let singleGreen;
-//     let doubleGreen;
-//     let singleBlue;
-//     let doubleBlue;
-//     let singleOrange;
-//     let doubleOrange;
-//     let singlePurple;
-//     let doublePurple;
-//     let gift;
-//     let city;
-//     let music;
+
 
 // gameBoxIds.push(gameBox.getAttribute('data-id'));
 //let gameBoxes = document.querySelectorAll('[game-box]');
