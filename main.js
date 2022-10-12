@@ -1,4 +1,4 @@
-
+//Car land is a kids game with similar functionality to candy land
 //gameCardsInPlay array will hold card options to display. As cards are flipped over they will go to cardChosen and used they will get pushed to gameCardsUsed array
 let gameCardsInPlay = [];
 let gameCardsUsed = [];
@@ -15,8 +15,14 @@ const directions = document.querySelector('.directions');
 let currentPlayer = 1;
 let newSpaceId;
 let playerDisplay = document.getElementById('player-display');
-
-
+//arrays will be filled in startGame function. id array contains all data ids as integers. colored arrays sort integers by what color their game space is.
+let idarray = [];
+let greenIds = [];
+let blueIds = [];
+let orangeIds = [];
+let purpleIds = [];
+//selects reset button to add click event to
+const resetButton = document.querySelector('.reset');
 
 //builds gameboard initially and will be called to reset game upon clicking reset button
 function startGame() {
@@ -33,6 +39,7 @@ function startGame() {
             gameBox.classList.add('game-box');
             gameBox.setAttribute('data-id', i);
             //divides each game box into a top half to hold player1 car and a bottom half to hold player2 car
+            idarray.push(i);
             gameBoxTop = document.createElement('div');
             gameBox.appendChild(gameBoxTop);
             gameBoxTop.classList.add('game-box-top');
@@ -43,17 +50,21 @@ function startGame() {
             if (i === 14 || i === 25 || i === 36 || i === 55) {
                 gameBox.classList.add('special');
             }
-            if (i === 1 || i === 5 || i === 9 || i === 13 || i === 18 || i === 22 || i === 27 || i === 31 || i === 35 || i === 40 || i === 44 || i === 48 || i === 52) {
+            if (i === 1 || i === 5 || i === 9 || i === 13 || i === 18 || i === 22 || i === 27 || i === 31 || i === 35 || i === 40 || i === 44 || i === 48 || i === 52 || i ===55) {
                 gameBox.classList.add('green');
+                greenIds.push(i);
             }
-            if (i === 2 || i === 6 || i === 10 || i === 15 || i === 19 || i === 23 || i === 28 || i === 32 || i === 37 || i === 41 || i === 45 || i === 49 || i === 53) {
+            if (i === 2 || i === 6 || i === 10 || i === 15 || i === 19 || i === 23 || i === 28 || i === 32 || i === 37 || i === 41 || i === 45 || i === 49 || i === 53 || i === 55) {
                 gameBox.classList.add('blue');
+                blueIds.push(i);
             }
-            if (i === 3 || i === 7 || i === 11 || i === 16 || i === 20 || i === 24 || i === 29 || i === 33 || i === 38 || i === 42 || i === 46 || i === 50 || i === 54) {
+            if (i === 3 || i === 7 || i === 11 || i === 16 || i === 20 || i === 24 || i === 29 || i === 33 || i === 38 || i === 42 || i === 46 || i === 50 || i === 54 || i === 55) {
                 gameBox.classList.add('orange');
+                orangeIds.push(i);
             }
-            if (i === 4 || i === 8 || i === 12 || i === 17 || i === 21 || i === 26 || i === 30 || i === 34 || i === 39 || i === 43 || i === 47 || i === 51) {
+            if (i === 4 || i === 8 || i === 12 || i === 17 || i === 21 || i === 26 || i === 30 || i === 34 || i === 39 || i === 43 || i === 47 || i === 51 || i === 55) {
                 gameBox.classList.add('purple');
+                purpleIds.push(i);
             }
             //adds characters to special spaces
             if (i === 55) {
@@ -100,33 +111,6 @@ startGame();
 
 //ids created when startGame is called and game board is created. ids will be used to target and move spaces on game board
 let ids = document.querySelectorAll('[data-id]');
-//Specific colored arrays are generated below in function idSpaces by color. They will store id values by color and will be used to find newSpaceId based on color of card drawn.
-let greenIds = [];
-let blueIds = [];
-let orangeIds = [];
-let purpleIds = [];
-//let specialIds = [];
-//helper function that creates array of ids for different colored spaces that will be used to target and move spaces
-function idSpacesByColor() {
-    for (let i = 0; i < ids.length; i++) {
-        if (ids[i].className === 'game-box green') {
-            greenIds.push(ids[i].dataset.id);
-        }
-        if (ids[i].className === 'game-box blue') {
-            blueIds.push(ids[i].dataset.id);
-        }
-        if (ids[i].className === 'game-box orange') {
-            orangeIds.push(ids[i].dataset.id);
-        }
-        if (ids[i].className === 'game-box purple') {
-            purpleIds.push(ids[i].dataset.id);
-        }
-        //if (ids[i].className === 'game-box special') {
-        //     specialIds.push(ids[i].dataset.id);
-        // }
-    }
-}
-idSpacesByColor();
 
 //will be used as an onclick function attached to reset button to restart game
 function reset() {
@@ -135,28 +119,27 @@ function reset() {
     drawButton.style.display = 'inline block';
     card.style.display = 'none';
     //remove any classLists on board*********************************
+    //reset card slots to baseline
+    firstCardSlot.classList = 'card-box first-slot';
+    secondCardSlot.classList = 'second-slot';
+    firstCardSlot.innerHTML = '';
     startGame()
 }
+resetButton.addEventListener('click', reset);
 
 //finds current player space to compare to space arrays to make move
 function currentSpace(player) {
     if (player === 1) {
         for (let i = 0; i < ids.length; i++) {
-            // if (ids[i].firstElementChild.innerHTML === ('<i class="fa-solid fa-car-side player1"></i>')) {
-            //     return ids[i].dataset.id;
-            // }
             if (ids[i].firstElementChild.innerHTML.includes('player1')) {
-                    return ids[i].dataset.id;
+                    return parseInt(ids[i].dataset.id);
                 }
         }
     }
     if (player === 2) {
         for (let i = 0; i < ids.length; i++) {
-            // if (ids[i].lastChild.innerHTML === ('<i class=\"fa-solid fa-car-side player2\"></i>')) {
-            //     return ids[i].dataset.id;
-            // }
             if (ids[i].lastChild.innerHTML.includes('player2')) {
-                return ids[i].dataset.id;
+                return parseInt(ids[i].dataset.id);
             }
         }
     }
@@ -177,10 +160,6 @@ function drawCard() {
     drawButton.style.display = 'none';
     card.style.display = 'flex';
     directions.innerHTML = 'Click game space';
-    let firstPurple;
-    let firstBlue;
-    let firstGreen;
-    let firstOrange;
     //adds functionality to display selected card depending on cardChosen
     //finds correct game space for selected card depending on currentSpace
     //last line adds event listener for a click to newSpaceId
@@ -204,28 +183,40 @@ function drawCard() {
         firstCardSlot.classList.add('blue');
         secondCardSlot.classList.add('card-box');
         secondCardSlot.classList.add('blue');
-        firstBlue = blueIds.find(id => id > currentSpace(currentPlayer));
+        let firstBlue = blueIds.find(id => id > currentSpace(currentPlayer));
+        if(firstBlue === 55) {
+            newSpaceId = 55;
+        }
         newSpaceId = blueIds.find(id => id > firstBlue);
     }
     if (cardChosen[0] === 'doubleGreen') {
         firstCardSlot.classList.add('green');
         secondCardSlot.classList.add('card-box');
         secondCardSlot.classList.add('green');
-        firstGreen = greenIds.find(id => id > currentSpace(currentPlayer));
+        let firstGreen = greenIds.find(id => id > currentSpace(currentPlayer));
+        if(firstGreen === 55) {
+            newSpaceId = 55;
+        }
         newSpaceId = greenIds.find(id => id > firstGreen);
     }
     if (cardChosen[0] === 'doubleOrange') {
         firstCardSlot.classList.add('orange');
         secondCardSlot.classList.add('card-box');
         secondCardSlot.classList.add('orange');
-        firstOrange = orangeIds.find(id => id > currentSpace(currentPlayer));
+        let firstOrange = orangeIds.find(id => id > currentSpace(currentPlayer));
+        if(firstOrange === 55) {
+            newSpaceId = 55;
+        }
         newSpaceId = orangeIds.find(id => id > firstOrange);
     }
     if (cardChosen[0] === 'doublePurple') {
         firstCardSlot.classList.add('purple');
         secondCardSlot.classList.add('card-box');
         secondCardSlot.classList.add('purple');
-        firstPurple = purpleIds.find(id => id > currentSpace(currentPlayer));
+        let firstPurple = purpleIds.find(id => id > currentSpace(currentPlayer));
+        if(firstPurple === 55) {
+            newSpaceId = 55;
+        }
         newSpaceId = purpleIds.find(id => id > firstPurple);
     }
     if (cardChosen[0] === 'gift') {
@@ -243,9 +234,6 @@ function drawCard() {
         firstCardSlot.innerHTML = '<i class="fa-solid fa-music"></i>';
         newSpaceId = 36;
     }
-    console.log(cardChosen[0]);
-    console.log(currentSpace(currentPlayer));
-    console.log(newSpaceId);
     console.log(ids[newSpaceId]);
     ids[newSpaceId].addEventListener('click', makeMove);
 }
@@ -279,6 +267,10 @@ function makeMove() {
     card.style.display = 'none';
     directions.innerHTML = 'Draw a card';
     ids[newSpaceId].removeEventListener('click', makeMove);
+    if (newSpaceId === 55) {
+        directions.innerHTML = `Player ${currentPlayer} Wins!`;
+        drawButton.removeEventListener('click', drawCard);
+    }
 }
 
 
