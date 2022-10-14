@@ -114,10 +114,24 @@ button:hover{
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    position: relative;
 }
 
-i {
-    display: block;
+.game-box-top {
+    position: absolute;
+    top: 5px;
+    z-index: 2;
+}
+
+.game-box-bottom {
+    position: absolute;
+    bottom: 5px;
+    z-index: 2;
+}
+
+.icon-box {
+    position: absolute;
+    z-index: 1;
 }
 
 /* construct grid for game path */
@@ -377,22 +391,18 @@ i {
     font-size: 3rem;
     color: blue;
     background-color: pink;
-    display: block;
 }
 
 .fa-music, .fa-city, .fa-gift {
     font-size: 2rem;
     color: purple;
     background-color: pink;
-    display: block;
 }
 
 .fa-car-side {
     font-size: 1.5rem;
     background-color: grey;
     padding: 2px;
-    z-index: 2;
-    display: block;
 }
 
 .player1 {
