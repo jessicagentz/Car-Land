@@ -1,7 +1,7 @@
 //Car land is a kids game with similar functionality to candy land
 //gameCardsInPlay array will hold card options to display. As cards are flipped over they will go to cardChosen and used they will get pushed to gameCardsUsed array
 let gameCardsInPlay = [];
-let gameCardsUsed = [];
+//let gameCardsUsed = [];
 let cardChosen = [];
 //card represents div in html that will hold card boxes(boxes with card deck options)
 const card = document.querySelector('.card');
@@ -173,9 +173,9 @@ function currentSpace(player) {
 //handles click event lister for draw button to display card and update directions
 function drawCard() {
     //rebuilds deck if no cards remain
-    if (gameCardsInPlay === null) {
-        buildCardDeck();
-    }
+    // if (gameCardsInPlay === null) {
+    //     buildCardDeck();
+    // }
     //generates a random number to plug into gameCardsInPlay array to select random card and push to cardChosen
     selectRandomNumber = () => {
         return Math.floor(Math.random() * gameCardsInPlay.length);
@@ -211,8 +211,9 @@ function drawCard() {
         let firstBlue = blueIds.find(id => id > currentSpace(currentPlayer));
         if (firstBlue === 55) {
             newSpaceId = 55;
+        } else {
+            newSpaceId = blueIds.find(id => id > firstBlue);
         }
-        newSpaceId = blueIds.find(id => id > firstBlue);
     }
     if (cardChosen[0] === 'doubleGreen') {
         firstCardSlot.classList.add('green');
@@ -221,8 +222,10 @@ function drawCard() {
         let firstGreen = greenIds.find(id => id > currentSpace(currentPlayer));
         if (firstGreen === 55) {
             newSpaceId = 55;
+        } else {
+            newSpaceId = greenIds.find(id => id > firstGreen);
         }
-        newSpaceId = greenIds.find(id => id > firstGreen);
+        
     }
     if (cardChosen[0] === 'doubleOrange') {
         firstCardSlot.classList.add('orange');
@@ -231,8 +234,10 @@ function drawCard() {
         let firstOrange = orangeIds.find(id => id > currentSpace(currentPlayer));
         if (firstOrange === 55) {
             newSpaceId = 55;
+        } else {
+            newSpaceId = orangeIds.find(id => id > firstOrange);
         }
-        newSpaceId = orangeIds.find(id => id > firstOrange);
+        
     }
     if (cardChosen[0] === 'doublePurple') {
         firstCardSlot.classList.add('purple');
@@ -241,8 +246,10 @@ function drawCard() {
         let firstPurple = purpleIds.find(id => id > currentSpace(currentPlayer));
         if (firstPurple === 55) {
             newSpaceId = 55;
+        } else {
+            newSpaceId = purpleIds.find(id => id > firstPurple);
         }
-        newSpaceId = purpleIds.find(id => id > firstPurple);
+        
     }
     if (cardChosen[0] === 'gift') {
         firstCardSlot.classList.add('special');
@@ -265,7 +272,7 @@ function drawCard() {
 //handles click event when player clicks on correct game space or alerts player to try again if correct space is not selected
 function makeMove() {
     //resets cardChosen array to empty and puts used card in used array
-    gameCardsUsed.push(cardChosen);
+    //gameCardsUsed.push(cardChosen);
     cardChosen = [];
     //moves red car if player1 and yellow car if player2, changes player, and changes player display
     if (currentPlayer === 1) {
